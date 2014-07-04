@@ -1,5 +1,22 @@
 <?php
 
+/*
+    This file is part of smfm.
+
+    smfm is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    smfm is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with smfm.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 //lock.php is basic spam-submit prevention
 //lock_time_initial, lock_time_overload, lock_count_overload, lock_time_reset, and lock_time_max should be defined in $config
 
