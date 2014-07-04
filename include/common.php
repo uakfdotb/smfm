@@ -353,45 +353,6 @@ function smfm_get_backtrace() {
 	return htmlspecialchars($str);
 }
 
-//checks if the given IP address belongs to a designated private network
-function is_private_ip($ip) {
-	$blocks = array(
-					array("10.0.0.0", "10.255.255.255"),
-					array("172.16.0.0", "172.31.255.255"),
-					array("192.168.0.0", "192.168.255.255")
-					);
-
-	foreach($blocks as $block) {
-		if(ip2long($ip) >= ip2long($block[0]) && ip2long($ip) <= ip2long($block[1])) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
-//checks if the given IP address belongs to a reserved network
-function is_reserved_ip($ip) {
-	$blocks = array(
-					array("10.0.0.0", "10.0.255.255"),
-					array("10.1.0.0", "10.1.255.255")
-					);
-
-	foreach($blocks as $block) {
-		if(ip2long($ip) >= ip2long($block[0]) && ip2long($ip) <= ip2long($block[1])) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
-//changes 1.2.3.4 => 4.3.2.1
-function reverse_ip($ip) {
-	$parts = explode('.', $ip);
-	return implode('.', array_reverse($parts));
-}
-
 function shuffle_assoc($list) {
 	if (!is_array($list)) return $list;
 	$keys = array_keys($list);
