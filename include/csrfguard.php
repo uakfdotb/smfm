@@ -78,19 +78,21 @@ function csrfguard_validate_token($unique_form_name, $token_value) {
 }
 
 function csrfguard_replace_forms($form_data_html) {
-	$count=preg_match_all("/<form(.*?)>(.*?)<\\/form>/is",$form_data_html,$matches,PREG_SET_ORDER);
+	$count=preg_match_all("/<form(.*?)>(.*?)<\\/form>/is", $form_data_html, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE);
 	if(is_array($matches)) {
+		$matches = array_reverse($matches);
+
 		foreach($matches as $m) {
-			if(strpos($m[1],"nocsrf")!==false) {
+			if(strpos($m[1][0],"nocsrf")!==false) {
 				continue;
 			}
 
 			$name = "CSRFGuard_" . mt_rand(0, mt_getrandmax());
 			$token = csrfguard_generate_token($name);
-			$form_data_html = str_replace($m[0],
-				"<form{$m[1]}>
+			$form_data_html = substr_replace($form_data_html,
+				"<form{$m[1][0]}>
 <input type='hidden' name='CSRFName' value='{$name}' />
-<input type='hidden' name='CSRFToken' value='{$token}' />{$m[2]}</form>", $form_data_html);
+<input type='hidden' name='CSRFToken' value='{$token}' />{$m[2][0]}</form>", $m[0][1], strlen($m[0][0]));
 		}
 	}
 
