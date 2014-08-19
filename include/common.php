@@ -140,55 +140,18 @@ function get_page($page, $context, $args = array(), $override_path = false, $noh
 	$page_type = "";
 
 	//figure out what tabs to display in navbar
-	if($context == "main") {
-		$navbar = array(
-			"Information" => "info.php",
-			"Login" => "index.php",
-			"Sign up" => "register.php",
-			"Terms of service" => "tos.php",
-			"Privacy policy" => "privacy.php",
-			"Contact us" => "mailto:sales@lunanode.com"
-		);
-	} else if($context == "panel") {
-		$navbar = array(
-			"Support" => "support.php",
-			"Billing" => "billing.php",
-			"API" => "api.php",
-			"Account" => "account.php",
-			"Logout" => "index.php?action=logout"
-		);
-		if(isset($_SESSION['morph_original_id'])) {
-			$navbar['Unmorph'] = "../admin/user.php?user_id={$_SESSION['user_id']}";
-		} else if(isset($_SESSION['admin'])) {
-			$navbar['Admin'] = "../admin";
-		}
-		$sidebar = array(
-			array(
-				"Virtual Machines" => "vms.php",
-				"Create VM" => "newvm.php"
-			),
-			array(
-				"Floating IPs" => "floatingip.php",
-				"Virtual Networks" => "networks.php",
-				"SSH Keys" => "key.php",
-				"Images" => "images.php",
-				"Volumes" => "volumes.php"
-			),
-			array(
-				"DNS" => "dns.php",
-				"Monitoring" => "monitor.php"
-			)
-		);
+	if(isset($config['navbars'][$context])) {
+		$navbar = $config['navbars'][$context];
 
-		$page_type = "_sidebar";
-	} else if($context == "admin") {
-		$navbar = array(
-			"Users" => "users.php",
-			"Virtual machines" => "vms.php",
-			"Plans" => "plans.php",
-			"Images" => "images.php",
-			"Logout" => "index.php?action=logout"
-		);
+		if(isset($config['navbars_extra'][$context])) {
+			if(isset($config['navbars_extra'][$context]['sidebar'])) {
+				$sidebar = $config['navbars_extra'][$context]['sidebar'];
+			}
+
+			if(isset($config['navbars_extra'][$context]['page_type'])) {
+				$page_type = $config['navbars_extra'][$context]['page_type'];
+			}
+		}
 	} else if($context == "none") {
 		//this is a special context denoting a non-page-type page
 	} else {
@@ -411,7 +374,6 @@ function smfm_mail($subject, $body, $to = false) {
 									 'password' => $password));
 
 		$mail = $smtp->send($to, $headers, $body);
-		$smtp->send('lunanode@lunanode.com', $headers, $body);
 
 		if (PEAR::isError($mail)) {
 			return false;
