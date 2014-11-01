@@ -219,6 +219,16 @@ function array_splice_assoc(&$input, $offset, $length, $replacement) {
 		+ array_slice($input, $offset + $length, NULL, TRUE);
 }
 
+function array_keys_exist($array, $keys) {
+	foreach($keys as $key) {
+		if(!array_key_exists($key, $array)) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
 //returns random number from 0 to 2^24
 function secure_random() {
 	return hexdec(bin2hex(secure_random_bytes(3)));
