@@ -47,4 +47,10 @@ require_once(dirname(__FILE__) . "/sanitize.php");
 
 set_error_handler('smfm_error', (E_ALL & ~E_STRICT) & ~E_DEPRECATED);
 
+if(isset($config['smfm_includes']) && is_array($config['smfm_includes'])) {
+	foreach($config['smfm_includes'] as $include_file) {
+		require_once(dirname(__FILE__) . '/' . $include_file);
+	}
+}
+
 ?>
