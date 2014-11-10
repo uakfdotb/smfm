@@ -277,7 +277,8 @@ function smfm_redirect($url, $get = array(), $statusCode = 303) {
 }
 
 function smfm_page_requested() {
-	$this_page = basename($_SERVER['REQUEST_URI']);
+	$request_uri_parts = explode('/', $_SERVER['REQUEST_URI']);
+	$this_page = $request_uri_parts[count($request_uri_parts) - 1];
 	if (strpos($this_page, "?") !== false) $this_page = explode("?", $this_page)[0];
 	return $this_page;
 }
